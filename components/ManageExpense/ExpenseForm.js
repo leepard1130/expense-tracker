@@ -2,6 +2,8 @@ import { Text, View, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import Input from './Input';
 import Button from '../UI/Button';
+import {  GlobalStyles } from '../../constants/styles';
+import { getFormattedDate } from '../../util/date';
 
 function ExpenseForm({onCancel, onSubmit, submitButtonLabel, defaultValues}) {
   const [inputs, setInputs] = useState({
@@ -53,9 +55,9 @@ function ExpenseForm({onCancel, onSubmit, submitButtonLabel, defaultValues}) {
     onSubmit(expenseData);
   }
 
-  const formIsValid = inputs.amount.isValid ||
-                       inputs.date.isValid || 
-                       inputs.description.isValid;
+  const formIsValid = inputs.amount.isValid &&
+                      inputs.date.isValid && 
+                      inputs.description.isValid;
 
   return (
     <View style={styles.form}>
@@ -91,7 +93,7 @@ function ExpenseForm({onCancel, onSubmit, submitButtonLabel, defaultValues}) {
           value: inputs.description.value,
         }}
       />
-      {formIsValid && (
+      {!formIsValid && (
         <Text style={styles.errorText}>
           Invalid input values - please check your entered data!
         </Text>
